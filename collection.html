@@ -3,108 +3,142 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Collection - TCG Marketplace</title>
+  <title>My Collection - TCGMarket</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'mirage': '#16232A',
+            'deep-sea': '#075056',
+            'wild-sand': '#E4EEF0',
+            'coral': '#FF6B6B',
+          }
+        }
+      }
     }
-    .fade-in {
-      animation: fadeIn 0.6s ease-out;
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    * { font-family: 'Inter', sans-serif; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #075056 0%, #16232A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding: 0.05em 0;
+    }
+    .gradient-bg { background: linear-gradient(135deg, #075056 0%, #16232A 100%); }
+    .hero-gradient { background: linear-gradient(135deg, #E4EEF0 0%, #ffffff 50%, #E4EEF0 100%); }
+    .glass-effect {
+      background: rgba(228, 238, 240, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
     }
     .card-hover {
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(22, 35, 42, 0.1);
     }
     .card-hover:hover {
       transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(7, 80, 86, 0.2), 0 10px 10px -5px rgba(7, 80, 86, 0.1);
+      border-color: rgba(7, 80, 86, 0.3);
     }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in { animation: fadeIn 0.5s ease-out; }
   </style>
 </head>
-<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen">
-  
-  <!-- Header -->
-  <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800">
-    <div class="max-w-7xl mx-auto px-6 py-4">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-8">
-          <a href="/index.html">
-            <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 cursor-pointer">
-              TCG
-            </h1>
-          </a>
-          <nav class="hidden md:flex items-center gap-6">
-            <a href="/index.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">
-              Marketplace
-            </a>
-            <a href="/collection.html" class="text-sm font-medium text-purple-400 transition-colors">
-              My Collection
-            </a>
-            <a href="/sell-card.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">
-              Sell a Card
-            </a>
-          </nav>
-        </div>
-        
-        <div class="flex items-center gap-4">
-          <div class="relative" id="userMenuContainer">
-            <button id="userProfileBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors">
-              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-              </svg>
-            </button>
+<body class="bg-wild-sand antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 glass-effect">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+          <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
           </div>
+          <span class="text-2xl font-bold"><span class="gradient-text">TCGMarket</span></span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="/" class="text-mirage hover:text-deep-sea font-medium transition-colors">Home</a>
+          <a href="/marketplace.html" class="text-mirage hover:text-deep-sea font-medium transition-colors">Marketplace</a>
+          <a href="/sell-card.html" class="text-mirage hover:text-deep-sea font-medium transition-colors">Sell Card</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-4" id="navAuthButtons">
+          <button onclick="window.location.href='/login.html'" class="px-5 py-2.5 text-mirage font-semibold hover:text-deep-sea transition-colors">
+            Sign In
+          </button>
+          <button onclick="window.location.href='/login.html'" class="px-6 py-2.5 gradient-bg text-wild-sand rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all">
+            Get Started
+          </button>
         </div>
       </div>
     </div>
-  </header>
+  </nav>
 
   <!-- Main Content -->
-  <div class="max-w-7xl mx-auto px-6 py-12">
-    
-    <!-- Header Section -->
-    <div class="mb-8">
-      <h2 class="text-4xl font-bold mb-3">My Collection</h2>
-      <p class="text-slate-400 text-lg">View and manage your personal card collection</p>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 pt-32 pb-16">
+
+    <!-- Page Header -->
+    <div class="mb-10">
+      <h1 class="text-4xl md:text-5xl font-black gradient-text mb-3">My Collection</h1>
+      <p class="text-mirage/60 text-lg">View and manage your personal card collection</p>
     </div>
 
-    <!-- Stats Section -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-      <div class="bg-gradient-to-br from-purple-900/30 to-purple-800/30 rounded-xl border border-purple-500/30 p-6">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-purple-400 text-sm font-semibold uppercase tracking-wide">Total Cards</span>
-          <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
-          </svg>
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <div class="card-hover p-6 rounded-2xl hero-gradient">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+            </svg>
+          </div>
+          <span class="text-xs font-bold text-deep-sea uppercase tracking-wide">Total Cards</span>
         </div>
-        <div class="text-3xl font-bold" id="totalCards">0</div>
+        <div class="text-4xl font-black text-mirage" id="totalCards">0</div>
       </div>
 
-      <div class="bg-gradient-to-br from-green-900/30 to-green-800/30 rounded-xl border border-green-500/30 p-6">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-green-400 text-sm font-semibold uppercase tracking-wide">PSA 10</span>
-          <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-          </svg>
+      <div class="card-hover p-6 rounded-2xl hero-gradient">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-12 h-12 bg-coral rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
+            </svg>
+          </div>
+          <span class="text-xs font-bold text-coral uppercase tracking-wide">PSA 10</span>
         </div>
-        <div class="text-3xl font-bold" id="psa10Count">0</div>
+        <div class="text-4xl font-black text-mirage" id="psa10Count">0</div>
       </div>
 
-      <div class="bg-gradient-to-br from-yellow-900/30 to-yellow-800/30 rounded-xl border border-yellow-500/30 p-6">
-        <div class="flex items-center justify-between mb-2">
-          <span class="text-yellow-400 text-sm font-semibold uppercase tracking-wide">Avg Grade</span>
-          <svg class="w-8 h-8 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
-          </svg>
+      <div class="card-hover p-6 rounded-2xl hero-gradient">
+        <div class="flex items-center justify-between mb-3">
+          <div class="w-12 h-12 gradient-bg rounded-xl flex items-center justify-center">
+            <svg class="w-6 h-6 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <span class="text-xs font-bold text-deep-sea uppercase tracking-wide">Avg Grade</span>
         </div>
-        <div class="text-3xl font-bold" id="avgGrade">0</div>
+        <div class="text-4xl font-black text-mirage" id="avgGrade">0</div>
       </div>
     </div>
 
-    <!-- Filters -->
+    <!-- Filters & Add Button -->
     <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
-      <div class="flex items-center gap-4 flex-wrap">
-        <select id="gameFilter" onchange="applyFilters()" class="bg-slate-800 text-white px-4 py-2 rounded-lg border border-slate-700 focus:border-purple-500 outline-none">
+      <div class="flex items-center gap-3 flex-wrap">
+        <select id="gameFilter" onchange="applyFilters()" class="bg-white border border-mirage/20 text-mirage px-4 py-2.5 rounded-xl focus:outline-none focus:border-deep-sea transition-colors text-sm font-medium">
           <option value="">All Games</option>
           <option value="Pokemon">Pokemon</option>
           <option value="Magic: The Gathering">Magic: The Gathering</option>
@@ -113,7 +147,7 @@
           <option value="Dragon Ball">Dragon Ball</option>
         </select>
 
-        <select id="gradeFilter" onchange="applyFilters()" class="bg-slate-800 text-white px-4 py-2 rounded-lg border border-slate-700 focus:border-purple-500 outline-none">
+        <select id="gradeFilter" onchange="applyFilters()" class="bg-white border border-mirage/20 text-mirage px-4 py-2.5 rounded-xl focus:outline-none focus:border-deep-sea transition-colors text-sm font-medium">
           <option value="">All Grades</option>
           <option value="10">PSA 10</option>
           <option value="9">PSA 9</option>
@@ -123,7 +157,7 @@
           <option value="5">PSA 5</option>
         </select>
 
-        <select id="sortFilter" onchange="applyFilters()" class="bg-slate-800 text-white px-4 py-2 rounded-lg border border-slate-700 focus:border-purple-500 outline-none">
+        <select id="sortFilter" onchange="applyFilters()" class="bg-white border border-mirage/20 text-mirage px-4 py-2.5 rounded-xl focus:outline-none focus:border-deep-sea transition-colors text-sm font-medium">
           <option value="added_date-DESC">Recently Added</option>
           <option value="value-DESC">Value: High to Low</option>
           <option value="value-ASC">Value: Low to High</option>
@@ -132,28 +166,28 @@
         </select>
       </div>
 
-      <button onclick="openAddCardModal()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-6 py-2 rounded-lg font-semibold transition-all">
+      <button onclick="openAddCardModal()" class="px-6 py-2.5 gradient-bg text-wild-sand rounded-xl font-semibold hover:shadow-lg transform hover:scale-105 transition-all">
         + Add Card
       </button>
     </div>
 
-    <!-- Collection Grid -->
-    <div id="collectionGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      <!-- Loading state -->
-      <div id="loadingCards" class="col-span-full text-center py-12">
-        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-purple-500"></div>
-        <p class="text-slate-400 mt-4">Loading your collection...</p>
-      </div>
+    <!-- Loading state -->
+    <div id="loadingCards" class="text-center py-16">
+      <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-deep-sea"></div>
+      <p class="text-mirage/60 mt-4">Loading your collection...</p>
     </div>
 
+    <!-- Collection Grid -->
+    <div id="collectionGrid" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
     <!-- Empty state -->
-    <div id="emptyState" class="hidden text-center py-16">
-      <svg class="w-24 h-24 text-slate-600 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div id="emptyState" class="hidden text-center py-20">
+      <svg class="w-20 h-20 text-mirage/20 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
       </svg>
-      <h3 class="text-2xl font-bold text-slate-300 mb-2">Your collection is empty</h3>
-      <p class="text-slate-400 mb-8">Start building your collection by adding your PSA graded cards</p>
-      <button onclick="openAddCardModal()" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white px-8 py-3 rounded-lg font-semibold transition-all">
+      <h3 class="text-2xl font-bold text-mirage mb-2">Your collection is empty</h3>
+      <p class="text-mirage/60 mb-8">Start building your collection by adding your PSA graded cards</p>
+      <button onclick="openAddCardModal()" class="px-8 py-3 gradient-bg text-wild-sand rounded-xl font-bold hover:shadow-lg transform hover:scale-105 transition-all">
         Add Your First Card
       </button>
     </div>
@@ -162,56 +196,57 @@
 
   <!-- Add Card Modal -->
   <div id="addCardModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-    <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-      <div class="sticky top-0 bg-gradient-to-br from-slate-900 to-slate-800 border-b border-slate-700 p-6 flex items-center justify-between">
-        <h3 class="text-2xl font-bold">Add Card to Collection</h3>
-        <button onclick="closeAddCardModal()" class="text-slate-400 hover:text-white transition-colors">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div class="bg-white rounded-2xl border border-mirage/10 max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+      <!-- Modal Header -->
+      <div class="sticky top-0 bg-white border-b border-mirage/10 px-6 py-5 flex items-center justify-between rounded-t-2xl">
+        <h3 class="text-xl font-bold text-mirage">Add Card to Collection</h3>
+        <button onclick="closeAddCardModal()" class="text-mirage/40 hover:text-mirage transition-colors p-1">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
           </svg>
         </button>
       </div>
 
-      <div class="p-6 space-y-6">
-        
-        <!-- Error/Success Messages -->
-        <div id="modalError" class="hidden p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
+      <div class="p-6 space-y-5">
+
+        <!-- Modal Error/Success -->
+        <div id="modalError" class="hidden p-4 bg-coral/10 border border-coral/30 rounded-xl">
           <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-red-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-coral mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <p class="text-red-400 text-sm" id="modalErrorText"></p>
+            <p class="text-coral text-sm" id="modalErrorText"></p>
           </div>
         </div>
 
-        <div id="modalSuccess" class="hidden p-4 bg-green-500/10 border border-green-500/50 rounded-lg">
+        <div id="modalSuccess" class="hidden p-4 bg-deep-sea/10 border border-deep-sea/30 rounded-xl">
           <div class="flex items-start gap-3">
-            <svg class="w-5 h-5 text-green-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="w-5 h-5 text-deep-sea mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <p class="text-green-400 text-sm" id="modalSuccessText"></p>
+            <p class="text-deep-sea text-sm font-medium" id="modalSuccessText"></p>
           </div>
         </div>
 
         <!-- PSA Verification -->
         <div>
-          <label class="block text-sm font-medium text-slate-300 mb-2">
-            PSA Certification Number <span class="text-red-400">*</span>
+          <label class="block text-sm font-semibold text-mirage mb-2">
+            PSA Certification Number <span class="text-coral">*</span>
           </label>
           <div class="flex gap-3">
             <div class="flex-1 relative">
-              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">#</span>
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-mirage/40 font-semibold">#</span>
               <input
                 type="text"
                 id="modalCertNumber"
                 placeholder="114157662"
-                class="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+                class="w-full bg-wild-sand border border-mirage/20 rounded-xl pl-9 pr-4 py-3 text-mirage placeholder-mirage/30 focus:outline-none focus:border-deep-sea transition-colors"
               />
             </div>
             <button
               onclick="verifyPSACardInModal()"
               id="modalVerifyBtn"
-              class="bg-blue-600 hover:bg-blue-500 text-white px-6 py-3 rounded-lg font-semibold transition-all whitespace-nowrap"
+              class="gradient-bg hover:opacity-90 text-wild-sand px-6 py-3 rounded-xl font-semibold transition-all whitespace-nowrap"
             >
               Verify
             </button>
@@ -219,38 +254,37 @@
         </div>
 
         <!-- PSA Card Preview -->
-        <div id="modalCardPreview" class="hidden bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-          <div class="flex items-center gap-2 text-green-400 mb-3">
+        <div id="modalCardPreview" class="hidden bg-wild-sand rounded-xl p-4 border border-mirage/10">
+          <div class="flex items-center gap-2 text-deep-sea mb-3">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span class="font-semibold">Card Verified!</span>
+            <span class="font-semibold text-sm">Card Verified!</span>
           </div>
-
           <div class="grid grid-cols-3 gap-4 text-sm">
             <div>
-              <span class="text-slate-500">Card:</span>
-              <p class="font-semibold" id="modalCardName">-</p>
+              <span class="text-xs text-mirage/40 font-semibold uppercase tracking-wide">Card</span>
+              <p class="font-semibold text-mirage mt-1" id="modalCardName">-</p>
             </div>
             <div>
-              <span class="text-slate-500">Grade:</span>
-              <p class="font-semibold text-purple-400" id="modalCardGrade">-</p>
+              <span class="text-xs text-mirage/40 font-semibold uppercase tracking-wide">Grade</span>
+              <p class="font-bold text-deep-sea mt-1" id="modalCardGrade">-</p>
             </div>
             <div>
-              <span class="text-slate-500">Pop:</span>
-              <p class="font-semibold" id="modalCardPop">-</p>
+              <span class="text-xs text-mirage/40 font-semibold uppercase tracking-wide">Pop</span>
+              <p class="font-semibold text-mirage mt-1" id="modalCardPop">-</p>
             </div>
           </div>
         </div>
 
-        <!-- Card Game Selection -->
+        <!-- Game Selection -->
         <div id="modalGameSection" class="hidden">
-          <label class="block text-sm font-medium text-slate-300 mb-2">
-            Game <span class="text-red-400">*</span>
+          <label class="block text-sm font-semibold text-mirage mb-2">
+            Game <span class="text-coral">*</span>
           </label>
           <select
             id="modalCardGame"
-            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+            class="w-full bg-wild-sand border border-mirage/20 rounded-xl px-4 py-3 text-mirage focus:outline-none focus:border-deep-sea transition-colors"
           >
             <option value="">Select a game</option>
             <option value="Pokemon">Pokemon</option>
@@ -263,29 +297,29 @@
 
         <!-- Notes -->
         <div id="modalNotesSection" class="hidden">
-          <label class="block text-sm font-medium text-slate-300 mb-2">
-            Notes <span class="text-slate-500">(Optional)</span>
+          <label class="block text-sm font-semibold text-mirage mb-2">
+            Notes <span class="text-mirage/40 text-xs font-normal">(Optional)</span>
           </label>
           <textarea
             id="modalNotes"
             rows="3"
             placeholder="Add any notes about this card..."
-            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+            class="w-full bg-wild-sand border border-mirage/20 rounded-xl px-4 py-3 text-mirage placeholder-mirage/30 focus:outline-none focus:border-deep-sea transition-colors resize-none"
           ></textarea>
         </div>
 
-        <!-- Submit Button -->
+        <!-- Submit Buttons -->
         <div id="modalSubmitSection" class="hidden flex gap-3">
           <button
             onclick="closeAddCardModal()"
-            class="flex-1 bg-slate-700 hover:bg-slate-600 text-white py-3 rounded-lg font-semibold transition-colors"
+            class="flex-1 bg-mirage/10 hover:bg-mirage/20 text-mirage py-3 rounded-xl font-semibold transition-colors"
           >
             Cancel
           </button>
           <button
             onclick="submitAddToCollection()"
             id="modalSubmitBtn"
-            class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 rounded-lg font-semibold transition-all"
+            class="flex-1 gradient-bg text-wild-sand py-3 rounded-xl font-bold hover:opacity-90 hover:shadow-lg transition-all"
           >
             Add to Collection
           </button>
@@ -295,32 +329,143 @@
     </div>
   </div>
 
+  <!-- Footer -->
+  <footer class="bg-mirage text-wild-sand py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-deep-sea rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <span class="text-xl font-bold">TCGMarket</span>
+          </div>
+          <p class="text-wild-sand/60 text-sm">The premium marketplace for PSA-graded trading cards.</p>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Marketplace</h4>
+          <ul class="space-y-2 text-sm text-wild-sand/60">
+            <li><a href="/" class="hover:text-wild-sand transition-colors">Browse Cards</a></li>
+            <li><a href="/sell-card.html" class="hover:text-wild-sand transition-colors">Sell Card</a></li>
+            <li><a href="/collection.html" class="hover:text-wild-sand transition-colors">My Collection</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-wild-sand/60">
+            <li><a href="#" class="hover:text-wild-sand transition-colors">About Us</a></li>
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Contact</a></li>
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bold mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm text-wild-sand/60">
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-wild-sand/10 pt-8 text-center text-sm text-wild-sand/40">
+        <p>&copy; 2025 TCGMarket. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
   <script>
     let allCards = [];
     let modalPsaData = null;
 
-    // Check authentication
+    // ── Auth ──────────────────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
       const token = sessionStorage.getItem('authToken');
-      if (!token) {
-        window.location.href = '/login.html';
-        return;
-      }
-
-      // Setup user menu
-      const userBtn = document.getElementById('userProfileBtn');
-      const username = sessionStorage.getItem('username');
-      if (username && userBtn) {
-        userBtn.innerHTML = '<div class="flex items-center gap-2"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg><span class="hidden md:inline text-sm font-medium">' + username + '</span></div>';
-      }
-
+      if (!token) { window.location.href = '/login.html'; return; }
+      updateUserUI();
       loadCollection();
     });
 
-    // Modal functions
+    function updateUserUI() {
+      const username = sessionStorage.getItem('username');
+      const navButtons = document.getElementById('navAuthButtons');
+      if (navButtons && username) {
+        navButtons.innerHTML = `
+          <div class="relative" id="userMenuContainer">
+            <button id="userProfileBtn" class="flex items-center gap-2 px-5 py-2.5 text-mirage font-semibold hover:text-deep-sea transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+              <span>${username}</span>
+            </button>
+          </div>`;
+        setTimeout(() => {
+          const btn = document.getElementById('userProfileBtn');
+          if (btn) btn.addEventListener('click', toggleUserMenu);
+        }, 100);
+      }
+    }
+
+    function toggleUserMenu() {
+      const existing = document.getElementById('userDropdown');
+      if (existing) { existing.remove(); return; }
+      const username = sessionStorage.getItem('username');
+      const userId = sessionStorage.getItem('userId');
+      const menu = document.createElement('div');
+      menu.id = 'userDropdown';
+      menu.className = 'absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-mirage/10 py-2 z-50';
+      menu.style.top = '100%';
+      menu.innerHTML = `
+        <div class="px-4 py-3 border-b border-mirage/10">
+          <p class="text-sm font-semibold text-mirage">${username || 'User'}</p>
+          <p class="text-xs text-mirage/60">User ID: ${userId || 'N/A'}</p>
+        </div>
+        <a href="/seller-dashboard.html" class="block px-4 py-2 text-sm text-mirage hover:bg-wild-sand transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            Seller Dashboard
+          </div>
+        </a>
+        <a href="/collection.html" class="block px-4 py-2 text-sm text-deep-sea font-semibold hover:bg-wild-sand transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            My Collection
+          </div>
+        </a>
+        <a href="/" class="block px-4 py-2 text-sm text-mirage hover:bg-wild-sand transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Marketplace
+          </div>
+        </a>
+        <div class="border-t border-mirage/10 mt-2 pt-2">
+          <button onclick="logout()" class="block w-full text-left px-4 py-2 text-sm text-coral hover:bg-wild-sand transition-colors">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+              Sign Out
+            </div>
+          </button>
+        </div>`;
+      const btn = document.getElementById('userProfileBtn');
+      if (btn) {
+        btn.parentElement.style.position = 'relative';
+        btn.parentElement.appendChild(menu);
+      }
+      setTimeout(() => {
+        document.addEventListener('click', function closeMenu(e) {
+          if (!menu.contains(e.target) && !btn.contains(e.target)) {
+            menu.remove();
+            document.removeEventListener('click', closeMenu);
+          }
+        });
+      }, 0);
+    }
+
+    function logout() { sessionStorage.clear(); window.location.href = '/login.html'; }
+
+    // ── Modal ─────────────────────────────────────────────────────────────────
     function openAddCardModal() {
       document.getElementById('addCardModal').classList.remove('hidden');
-      // Reset form
       document.getElementById('modalCertNumber').value = '';
       document.getElementById('modalCardPreview').classList.add('hidden');
       document.getElementById('modalGameSection').classList.add('hidden');
@@ -336,118 +481,74 @@
     }
 
     function showModalError(message) {
-      const errorDiv = document.getElementById('modalError');
-      const errorText = document.getElementById('modalErrorText');
-      errorText.textContent = message;
-      errorDiv.classList.remove('hidden');
+      document.getElementById('modalErrorText').textContent = message;
+      document.getElementById('modalError').classList.remove('hidden');
     }
-
-    function hideModalError() {
-      document.getElementById('modalError').classList.add('hidden');
-    }
+    function hideModalError() { document.getElementById('modalError').classList.add('hidden'); }
 
     function showModalSuccess(message) {
-      const successDiv = document.getElementById('modalSuccess');
-      const successText = document.getElementById('modalSuccessText');
-      successText.textContent = message;
-      successDiv.classList.remove('hidden');
+      document.getElementById('modalSuccessText').textContent = message;
+      document.getElementById('modalSuccess').classList.remove('hidden');
     }
 
+    // ── PSA verify (modal) ────────────────────────────────────────────────────
     async function verifyPSACardInModal() {
       hideModalError();
-      
       let certNumber = document.getElementById('modalCertNumber').value.trim();
+      if (!certNumber) { showModalError('Please enter a PSA certification number'); return; }
+      if (!certNumber.startsWith('#')) certNumber = '#' + certNumber;
 
-      if (!certNumber) {
-        showModalError('Please enter a PSA certification number');
-        return;
-      }
-
-      // Add # if not present
-      if (!certNumber.startsWith('#')) {
-        certNumber = '#' + certNumber;
-      }
-
-      const verifyBtn = document.getElementById('modalVerifyBtn');
-      const originalText = verifyBtn.textContent;
-      verifyBtn.textContent = 'Verifying...';
-      verifyBtn.disabled = true;
-
+      const btn = document.getElementById('modalVerifyBtn');
+      const orig = btn.textContent;
+      btn.textContent = 'Verifying...';
+      btn.disabled = true;
       try {
         const response = await fetch('/.netlify/functions/verify-psa-card', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ certNumber })
         });
-
         const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.message || data.error || 'Card verification failed');
-        }
-
-        // Store PSA data
+        if (!response.ok) throw new Error(data.message || data.error || 'Card verification failed');
         modalPsaData = data.card;
-
-        // Display card preview
         document.getElementById('modalCardName').textContent = data.card.cardName;
         document.getElementById('modalCardGrade').textContent = `PSA ${data.card.grade}`;
         document.getElementById('modalCardPop').textContent = data.card.totalPopulation || 'N/A';
         document.getElementById('modalCardPreview').classList.remove('hidden');
-
-        // Show form sections
         document.getElementById('modalGameSection').classList.remove('hidden');
         document.getElementById('modalNotesSection').classList.remove('hidden');
         document.getElementById('modalSubmitSection').classList.remove('hidden');
-
-        // Auto-select game if possible
         const gameSelect = document.getElementById('modalCardGame');
         if (data.card.category && data.card.category.toLowerCase().includes('pokemon')) {
           gameSelect.value = 'Pokemon';
         } else if (data.card.brand && data.card.brand.toLowerCase().includes('pokemon')) {
           gameSelect.value = 'Pokemon';
         }
-
       } catch (error) {
         showModalError(error.message || 'Failed to verify card. Please check the certification number.');
       } finally {
-        verifyBtn.textContent = originalText;
-        verifyBtn.disabled = false;
+        btn.textContent = orig;
+        btn.disabled = false;
       }
     }
 
+    // ── Add to collection ─────────────────────────────────────────────────────
     async function submitAddToCollection() {
       hideModalError();
-
-      if (!modalPsaData) {
-        showModalError('Please verify your card with PSA first');
-        return;
-      }
-
+      if (!modalPsaData) { showModalError('Please verify your card with PSA first'); return; }
       const cardGame = document.getElementById('modalCardGame').value;
       const notes = document.getElementById('modalNotes').value.trim();
-
-      if (!cardGame) {
-        showModalError('Please select a game');
-        return;
-      }
+      if (!cardGame) { showModalError('Please select a game'); return; }
 
       const submitBtn = document.getElementById('modalSubmitBtn');
-      const originalText = submitBtn.textContent;
+      const orig = submitBtn.textContent;
       submitBtn.textContent = 'Adding...';
       submitBtn.disabled = true;
-
       try {
         const token = sessionStorage.getItem('authToken');
-
         const response = await fetch('/.netlify/functions/add-to-collection', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-          },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({
             cardName: modalPsaData.cardName,
             cardGame,
@@ -467,9 +568,7 @@
             }
           })
         });
-
         const data = await response.json();
-
         if (!response.ok) {
           if (response.status === 409) {
             showModalError('This card is already in your collection!');
@@ -478,82 +577,62 @@
           }
           return;
         }
-
         showModalSuccess('Card added successfully!');
-        
-        // Reload collection after 1 second
-        setTimeout(() => {
-          closeAddCardModal();
-          loadCollection();
-        }, 1000);
-
+        setTimeout(() => { closeAddCardModal(); loadCollection(); }, 1000);
       } catch (error) {
         showModalError(error.message || 'An error occurred');
       } finally {
-        submitBtn.textContent = originalText;
+        submitBtn.textContent = orig;
         submitBtn.disabled = false;
       }
     }
 
+    // ── Load collection ───────────────────────────────────────────────────────
     async function loadCollection() {
       const grid = document.getElementById('collectionGrid');
       const loading = document.getElementById('loadingCards');
       const emptyState = document.getElementById('emptyState');
+      loading.classList.remove('hidden');
+      grid.classList.add('hidden');
+      emptyState.classList.add('hidden');
 
       try {
         const token = sessionStorage.getItem('authToken');
-
         const response = await fetch('/.netlify/functions/get-collection', {
-          headers: { 
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
         });
-
         const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to load collection');
-        }
+        if (!response.ok) throw new Error(data.error || 'Failed to load collection');
 
         loading.classList.add('hidden');
-
-        // Update stats
         document.getElementById('totalCards').textContent = data.stats.totalCards;
         document.getElementById('psa10Count').textContent = data.stats.psa10Count;
         document.getElementById('avgGrade').textContent = data.stats.avgGrade;
-
         allCards = data.cards;
 
         if (data.cards.length === 0) {
           emptyState.classList.remove('hidden');
-          grid.classList.add('hidden');
         } else {
-          emptyState.classList.add('hidden');
           grid.classList.remove('hidden');
           displayCards(data.cards);
         }
-
       } catch (error) {
         console.error('Error loading collection:', error);
         loading.classList.add('hidden');
-        grid.innerHTML = '<div class="col-span-full text-center py-12 text-red-400">Error loading collection. Please refresh the page.</div>';
+        grid.classList.remove('hidden');
+        grid.innerHTML = '<div class="col-span-full text-center py-12 text-coral">Error loading collection. Please refresh the page.</div>';
       }
     }
 
     function displayCards(cards) {
       const grid = document.getElementById('collectionGrid');
       grid.innerHTML = '';
-
-      cards.forEach(card => {
-        const cardEl = createCardElement(card);
-        grid.appendChild(cardEl);
-      });
+      cards.forEach(card => grid.appendChild(createCardElement(card)));
     }
 
     function createCardElement(card) {
       const div = document.createElement('div');
-      div.className = 'card-hover group relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl overflow-hidden border border-slate-700 hover:border-purple-500 hover:shadow-2xl hover:shadow-purple-500/20';
+      div.className = 'card-hover bg-white rounded-xl overflow-hidden fade-in group';
 
       const defaultImages = {
         'Pokemon': 'https://images.unsplash.com/photo-1613771404721-1f92d799e49f?w=400&h=560&fit=crop',
@@ -562,118 +641,72 @@
         'One Piece': 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=400&h=560&fit=crop',
         'Dragon Ball': 'https://images.unsplash.com/photo-1611339555338-e64f61654c42?w=400&h=560&fit=crop'
       };
-
       const imageUrl = card.image_url || defaultImages[card.card_game] || defaultImages['Pokemon'];
 
       div.innerHTML = `
-        <div class="absolute top-4 right-4 z-10 bg-black/70 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1">
-          <span class="text-blue-400">✓</span>
-          <span class="text-xs font-semibold text-white">PSA ${card.psa_grade}</span>
-        </div>
-        <div class="relative h-72 overflow-hidden">
-          <img src="${imageUrl}" alt="${card.card_name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-          <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-60"></div>
-        </div>
-        <div class="p-5 space-y-3">
-          <div>
-            <h3 class="text-xl font-bold text-white mb-1 group-hover:text-purple-400 transition-colors">${card.card_name}</h3>
-            <p class="text-sm text-slate-400">${card.card_game}${card.card_set ? ' • ' + card.card_set : ''}</p>
-          </div>
-          <div class="flex items-center justify-between pt-3 border-t border-slate-700">
-            <div class="flex items-center gap-2 text-xs text-slate-500">
-              <span>Cert: ${card.cert_number}</span>
-              ${card.total_population > 0 ? `<span class="text-slate-400">• Pop: ${card.total_population}</span>` : ''}
-            </div>
-            <button onclick="removeCard(${card.id})" class="text-red-400 hover:text-red-300 p-2 hover:bg-slate-700 rounded transition-colors" title="Remove from collection">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="p-4 pb-3">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2 py-1 bg-coral/10 text-coral rounded-full text-xs font-bold">PSA ${card.psa_grade}</span>
+            <button onclick="removeCard(${card.id})" class="p-1.5 text-mirage/30 hover:text-coral hover:bg-coral/10 rounded-lg transition-colors" title="Remove from collection">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
               </svg>
             </button>
           </div>
-        </div>
-      `;
+          <div class="relative mb-3">
+            <div class="aspect-[3/4] bg-gradient-to-br from-deep-sea/10 to-mirage/10 rounded-lg overflow-hidden">
+              <img src="${imageUrl}" alt="${card.card_name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+          </div>
+          <h3 class="font-bold text-mirage mb-1 truncate text-base">${card.card_name}</h3>
+          <p class="text-sm text-mirage/60 mb-3 truncate">${card.card_game}${card.card_set ? ' • ' + card.card_set : ''}</p>
+          <div class="flex items-center justify-between text-xs text-mirage/40 pt-2 border-t border-mirage/10">
+            <span>Cert: ${card.cert_number}</span>
+            ${card.total_population > 0 ? `<span>Pop: ${card.total_population}</span>` : ''}
+          </div>
+        </div>`;
 
       return div;
     }
 
+    // ── Remove card ───────────────────────────────────────────────────────────
     async function removeCard(cardId) {
-      if (!confirm('Are you sure you want to remove this card from your collection?')) {
-        return;
-      }
-
+      if (!confirm('Are you sure you want to remove this card from your collection?')) return;
       try {
         const token = sessionStorage.getItem('authToken');
-
         const response = await fetch(`/.netlify/functions/remove-from-collection?id=${cardId}`, {
           method: 'DELETE',
-          headers: {
-            'Authorization': `Bearer ${token}`,
-            'Content-Type': 'application/json'
-          }
+          headers: { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' }
         });
-
         const data = await response.json();
-
-        if (!response.ok) {
-          throw new Error(data.error || 'Failed to remove card');
-        }
-
-        // Reload collection
+        if (!response.ok) throw new Error(data.error || 'Failed to remove card');
         loadCollection();
-
       } catch (error) {
         alert('Error: ' + error.message);
       }
     }
 
+    // ── Filters ───────────────────────────────────────────────────────────────
     function applyFilters() {
       const game = document.getElementById('gameFilter').value;
       const grade = document.getElementById('gradeFilter').value;
       const sort = document.getElementById('sortFilter').value;
 
       let filtered = [...allCards];
+      if (game) filtered = filtered.filter(c => c.card_game === game);
+      if (grade) filtered = filtered.filter(c => c.psa_grade === parseInt(grade));
 
-      // Apply game filter
-      if (game) {
-        filtered = filtered.filter(card => card.card_game === game);
-      }
-
-      // Apply grade filter
-      if (grade) {
-        filtered = filtered.filter(card => card.psa_grade === parseInt(grade));
-      }
-
-      // Apply sorting
       const [sortBy, sortOrder] = sort.split('-');
       filtered.sort((a, b) => {
         let aVal, bVal;
-        
-        switch(sortBy) {
-          case 'added_date':
-            aVal = new Date(a.added_date);
-            bVal = new Date(b.added_date);
-            break;
-          case 'value':
-            aVal = parseFloat(a.estimated_value || 0);
-            bVal = parseFloat(b.estimated_value || 0);
-            break;
-          case 'grade':
-            aVal = a.psa_grade;
-            bVal = b.psa_grade;
-            break;
-          case 'name':
-            aVal = a.card_name.toLowerCase();
-            bVal = b.card_name.toLowerCase();
-            break;
-          default:
-            return 0;
+        switch (sortBy) {
+          case 'added_date': aVal = new Date(a.added_date); bVal = new Date(b.added_date); break;
+          case 'value':      aVal = parseFloat(a.estimated_value || 0); bVal = parseFloat(b.estimated_value || 0); break;
+          case 'grade':      aVal = a.psa_grade; bVal = b.psa_grade; break;
+          case 'name':       aVal = a.card_name.toLowerCase(); bVal = b.card_name.toLowerCase(); break;
+          default: return 0;
         }
-
-        if (sortOrder === 'ASC') {
-          return aVal > bVal ? 1 : -1;
-        } else {
-          return aVal < bVal ? 1 : -1;
-        }
+        return sortOrder === 'ASC' ? (aVal > bVal ? 1 : -1) : (aVal < bVal ? 1 : -1);
       });
 
       displayCards(filtered);
