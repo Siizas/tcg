@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCG - Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen flex items-center justify-center p-6">
+  <div class="absolute inset-0 bg-gradient-to-r from-purple-600/10 to-pink-600/10 blur-3xl"></div>
+  
+  <div class="relative w-full max-w-md">
+    <!-- Logo -->
+    <div class="text-center mb-8">
+      <h1 class="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 mb-2">
+        TCG
+      </h1>
+      <p class="text-slate-400">Premium Card Marketplace</p>
+    </div>
+
+    <!-- Auth Card -->
+    <div class="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-8 shadow-2xl">
+      <div class="mb-6">
+        <h2 id="authTitle" class="text-2xl font-bold text-white mb-2">Welcome Back</h2>
+        <p id="authDesc" class="text-slate-400 text-sm">Sign in to access your collection</p>
+      </div>
+
+      <!-- Error Message -->
+      <div id="errorMessage" class="hidden mb-4 p-3 bg-red-500/10 border border-red-500/50 rounded-lg">
+        <p class="text-red-400 text-sm" id="errorText"></p>
+      </div>
+
+      <!-- Success Message -->
+      <div id="successMessage" class="hidden mb-4 p-3 bg-green-500/10 border border-green-500/50 rounded-lg">
+        <p class="text-green-400 text-sm" id="successText"></p>
+      </div>
+
+      <!-- Auth Form -->
+      <div class="space-y-4">
+        <!-- Username (only for registration) -->
+        <div id="usernameField" class="hidden">
+          <label class="block text-sm font-medium text-slate-300 mb-2">Username</label>
+          <input
+            type="text"
+            id="username"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            placeholder="Choose a username"
+          />
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            placeholder="your.email@example.com"
+          />
+        </div>
+
+        <!-- Password -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            placeholder="••••••••"
+          />
+        </div>
+
+        <!-- Confirm Password (only for registration) -->
+        <div id="confirmPasswordField" class="hidden">
+          <label class="block text-sm font-medium text-slate-300 mb-2">Confirm Password</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            placeholder="••••••••"
+          />
+        </div>
+
+        <!-- Remember Me & Forgot Password (only for login) -->
+        <div id="loginOptions" class="flex items-center justify-between text-sm">
+          <label class="flex items-center gap-2 text-slate-400 cursor-pointer">
+            <input type="checkbox" id="rememberMe" class="rounded bg-slate-800 border-slate-700" />
+            Remember me
+          </label>
+          <a href="#" class="text-purple-400 hover:text-purple-300 transition-colors">
+            Forgot password?
+          </a>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          id="submitBtn"
+          onclick="handleAuth()"
+          class="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50"
+        >
+          Sign In
+        </button>
+      </div>
+
+      <!-- Toggle Mode -->
+      <div class="mt-6 text-center">
+        <p class="text-slate-400 text-sm">
+          <span id="toggleQuestion">Don't have an account?</span>
+          <button
+            onclick="toggleAuthMode()"
+            class="text-purple-400 hover:text-purple-300 font-semibold transition-colors ml-1"
+            id="toggleBtn"
+          >
+            Sign Up
+          </button>
+        </p>
+      </div>
+
+      <!-- Social Login -->
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-slate-700"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-gradient-to-br from-slate-900 to-slate-800 text-slate-400">
+              Or continue with
+            </span>
+          </div>
+        </div>
+
+        <div class="mt-4 grid grid-cols-2 gap-3">
+          <button class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg px-4 py-2 text-white transition-colors">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z"/>
+            </svg>
+            Google
+          </button>
+          <button class="flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg px-4 py-2 text-white transition-colors">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.831.092-.646.35-1.086.636-1.336-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836c.85.004 1.705.114 2.504.336 1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
+            </svg>
+            GitHub
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <p class="text-center text-slate-500 text-xs mt-6">
+      By continuing, you agree to TCG's Terms of Service and Privacy Policy
+    </p>
+  </div>
+
+  <script>
+    let isLogin = true;
+
+    function toggleAuthMode() {
+      isLogin = !isLogin;
+      
+      const authTitle = document.getElementById('authTitle');
+      const authDesc = document.getElementById('authDesc');
+      const usernameField = document.getElementById('usernameField');
+      const confirmPasswordField = document.getElementById('confirmPasswordField');
+      const loginOptions = document.getElementById('loginOptions');
+      const submitBtn = document.getElementById('submitBtn');
+      const toggleQuestion = document.getElementById('toggleQuestion');
+      const toggleBtn = document.getElementById('toggleBtn');
+
+      if (isLogin) {
+        authTitle.textContent = 'Welcome Back';
+        authDesc.textContent = 'Sign in to access your collection';
+        usernameField.classList.add('hidden');
+        confirmPasswordField.classList.add('hidden');
+        loginOptions.classList.remove('hidden');
+        submitBtn.textContent = 'Sign In';
+        toggleQuestion.textContent = "Don't have an account?";
+        toggleBtn.textContent = 'Sign Up';
+      } else {
+        authTitle.textContent = 'Create Account';
+        authDesc.textContent = 'Join the premium TCG marketplace';
+        usernameField.classList.remove('hidden');
+        confirmPasswordField.classList.remove('hidden');
+        loginOptions.classList.add('hidden');
+        submitBtn.textContent = 'Create Account';
+        toggleQuestion.textContent = 'Already have an account?';
+        toggleBtn.textContent = 'Sign In';
+      }
+
+      hideError();
+      hideSuccess();
+      clearForm();
+    }
+
+    function clearForm() {
+      document.getElementById('email').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('username').value = '';
+      document.getElementById('confirmPassword').value = '';
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorDiv.classList.remove('hidden');
+    }
+
+    function hideError() {
+      document.getElementById('errorMessage').classList.add('hidden');
+    }
+
+    function showSuccess(message) {
+      const successDiv = document.getElementById('successMessage');
+      const successText = document.getElementById('successText');
+      successText.textContent = message;
+      successDiv.classList.remove('hidden');
+    }
+
+    function hideSuccess() {
+      document.getElementById('successMessage').classList.add('hidden');
+    }
+
+    async function handleAuth() {
+      hideError();
+      hideSuccess();
+
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const username = document.getElementById('username').value.trim();
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      // Validation
+      if (!email || !password) {
+        showError('Email and password are required');
+        return;
+      }
+
+      if (!isLogin) {
+        if (!username) {
+          showError('Username is required');
+          return;
+        }
+        if (password !== confirmPassword) {
+          showError('Passwords do not match');
+          return;
+        }
+        if (password.length < 8) {
+          showError('Password must be at least 8 characters');
+          return;
+        }
+      }
+
+      const submitBtn = document.getElementById('submitBtn');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Processing...';
+      submitBtn.disabled = true;
+
+      try {
+        const endpoint = isLogin ? '/.netlify/functions/login' : '/.netlify/functions/register';
+        
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            username: username
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Authentication failed');
+        }
+
+        showSuccess(data.message || (isLogin ? 'Login successful!' : 'Account created successfully!'));
+        
+        if (data.token) {
+          sessionStorage.setItem('authToken', data.token);
+          sessionStorage.setItem('userId', data.userId);
+          sessionStorage.setItem('username', data.username || username);
+          
+          // Check if there's a redirect or pending purchase
+          const redirectPath = sessionStorage.getItem('redirectAfterLogin');
+          const pendingPurchase = sessionStorage.getItem('pendingPurchase');
+          
+          setTimeout(() => {
+            if (redirectPath) {
+              sessionStorage.removeItem('redirectAfterLogin');
+              window.location.href = redirectPath;
+            } else {
+              window.location.href = '/index.html';
+            }
+            
+            // If there was a pending purchase, trigger it after redirect
+            if (pendingPurchase) {
+              sessionStorage.setItem('triggerPurchase', pendingPurchase);
+              sessionStorage.removeItem('pendingPurchase');
+            }
+          }, 1500);
+        }
+
+        clearForm();
+
+      } catch (err) {
+        showError(err.message || 'An error occurred');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+
+    document.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        handleAuth();
+      }
+    });
+  </script>
+</body>
+</html>

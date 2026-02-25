@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Debug Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-white p-8">
+  <h1 class="text-3xl font-bold mb-6">Debug Test Page</h1>
+  
+  <div class="space-y-4">
+    <div class="bg-slate-800 p-4 rounded">
+      <h2 class="font-bold mb-2">Test 1: Get Listings</h2>
+      <button onclick="testGetListings()" class="bg-purple-600 px-4 py-2 rounded">Test Get Listings</button>
+      <pre id="result1" class="mt-2 text-xs bg-slate-900 p-2 rounded overflow-auto max-h-60"></pre>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded">
+      <h2 class="font-bold mb-2">Test 2: Auth Status</h2>
+      <button onclick="testAuth()" class="bg-purple-600 px-4 py-2 rounded">Check Auth</button>
+      <pre id="result2" class="mt-2 text-xs bg-slate-900 p-2 rounded"></pre>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded">
+      <h2 class="font-bold mb-2">Test 3: Session Storage</h2>
+      <button onclick="testSession()" class="bg-purple-600 px-4 py-2 rounded">Check Session</button>
+      <pre id="result3" class="mt-2 text-xs bg-slate-900 p-2 rounded"></pre>
+    </div>
+
+    <div class="bg-slate-800 p-4 rounded">
+      <h2 class="font-bold mb-2">Console Logs</h2>
+      <div id="console" class="text-xs bg-slate-900 p-2 rounded h-40 overflow-auto"></div>
+    </div>
+  </div>
+
+  <script>
+    // Capture console logs
+    const consoleEl = document.getElementById('console');
+    const oldLog = console.log;
+    const oldError = console.error;
+    
+    console.log = function(...args) {
+      oldLog.apply(console, args);
+      consoleEl.innerHTML += '<div class="text-green-400">' + args.join(' ') + '</div>';
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    };
+    
+    console.error = function(...args) {
+      oldError.apply(console, args);
+      consoleEl.innerHTML += '<div class="text-red-400">' + args.join(' ') + '</div>';
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    };
+
+    async function testGetListings() {
+      const result = document.getElementById('result1');
+      result.textContent = 'Loading...';
+      
+      try {
+        console.log('Fetching listings...');
+        const response = await fetch('/.netlify/functions/get-listings');
+        console.log('Response status:', response.status);
+        
+        const data = await response.json();
+        console.log('Data received:', data);
+        
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Error:', error);
+        result.textContent = 'Error: ' + error.message;
+      }
+    }
+
+    async function testAuth() {
+      const result = document.getElementById('result2');
+      const token = sessionStorage.getItem('authToken');
+      
+      if (!token) {
+        result.textContent = 'Not logged in - no token found';
+        return;
+      }
+      
+      try {
+        console.log('Verifying token...');
+        const response = await fetch('/.netlify/functions/verify-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        
+        const data = await response.json();
+        console.log('Auth result:', data);
+        
+        result.textContent = JSON.stringify(data, null, 2);
+      } catch (error) {
+        console.error('Auth error:', error);
+        result.textContent = 'Error: ' + error.message;
+      }
+    }
+
+    function testSession() {
+      const result = document.getElementById('result3');
+      const session = {
+        authToken: sessionStorage.getItem('authToken'),
+        userId: sessionStorage.getItem('userId'),
+        username: sessionStorage.getItem('username')
+      };
+      
+      result.textContent = JSON.stringify(session, null, 2);
+      console.log('Session data:', session);
+    }
+  </script>
+</body>
+</html>

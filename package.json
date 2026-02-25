@@ -1,0 +1,32 @@
+{
+  "name": "tcg-marketplace",
+  "version": "1.0.0",
+  "description": "Premium TCG Card Marketplace with Authentication",
+  "type": "module",
+  "scripts": {
+    "dev": "netlify dev",
+    "build": "echo 'No build step required'",
+    "deploy": "netlify deploy --prod"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.0",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^2.7.0",
+    "stripe": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jsonwebtoken": "^9.0.5",
+    "netlify-cli": "^17.0.0"
+  },
+  "keywords": [
+    "tcg",
+    "trading-cards",
+    "marketplace",
+    "psa",
+    "graded-cards"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

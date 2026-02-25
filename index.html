@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TCG Marketplace - Premium Graded Cards</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'mirage': '#16232A',
+            'deep-sea': '#075056',
+            'wild-sand': '#E4EEF0',
+            'coral': '#FF6B6B',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    
+    * {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #075056 0%, #16232A 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      padding: 0.05em 0;
+    }
+
+    .gradient-bg {
+      background: linear-gradient(135deg, #075056 0%, #16232A 100%);
+    }
+
+    .hero-gradient {
+      background: linear-gradient(135deg, #E4EEF0 0%, #ffffff 50%, #E4EEF0 100%);
+    }
+
+    .card-hover {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      border: 1px solid rgba(22, 35, 42, 0.1);
+    }
+
+    .card-hover:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 25px -5px rgba(7, 80, 86, 0.2), 0 10px 10px -5px rgba(7, 80, 86, 0.1);
+      border-color: rgba(7, 80, 86, 0.3);
+    }
+
+    .glass-effect {
+      background: rgba(228, 238, 240, 0.7);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Carousel styles */
+    .carousel-card {
+      opacity: 0;
+      transform: scale(0.95);
+      transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+
+    .carousel-card.active {
+      opacity: 1;
+      transform: scale(1);
+      position: relative;
+    }
+
+    .carousel-indicator {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: rgba(7, 80, 86, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .carousel-indicator.active {
+      width: 24px;
+      border-radius: 4px;
+      background: #075056;
+    }
+  </style>
+</head>
+<body class="bg-wild-sand antialiased">
+
+  <!-- Navigation -->
+  <nav class="fixed top-0 w-full z-50 glass-effect">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="/" class="flex items-center space-x-2 hover:opacity-80 transition-opacity">
+          <div class="w-10 h-10 gradient-bg rounded-lg flex items-center justify-center">
+            <svg class="w-6 h-6 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <span class="text-2xl font-bold"><span class="gradient-text">TCGMarket</span></span>
+        </a>
+
+        <div class="hidden md:flex items-center space-x-8">
+          <a href="/" class="text-deep-sea font-semibold transition-colors">Home</a>
+          <a href="/marketplace.html" class="text-mirage hover:text-deep-sea font-medium transition-colors">Marketplace</a>
+          <a href="/sell-card.html" class="text-mirage hover:text-deep-sea font-medium transition-colors">Sell Card</a>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-4">
+          <button onclick="window.location.href='/login.html'" class="px-5 py-2.5 text-mirage font-semibold hover:text-deep-sea transition-colors">
+            Sign In
+          </button>
+          <button onclick="window.location.href='/login.html'" class="px-6 py-2.5 gradient-bg text-wild-sand rounded-lg font-semibold hover:shadow-lg transform hover:scale-105 transition-all">
+            Get Started
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero-gradient pt-32 pb-20 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-8">
+          <div class="inline-block px-4 py-2 bg-deep-sea/10 rounded-full">
+            <span class="text-deep-sea font-semibold text-sm">✨ PSA Verified Marketplace</span>
+          </div>
+          
+          <h1 class="text-5xl md:text-6xl lg:text-7xl font-black leading-tight">
+            <span class="gradient-text">Trade Premium<br>Graded Cards</span>
+          </h1>
+          
+          <p class="text-xl text-mirage/70 leading-relaxed max-w-xl">
+            The most trusted marketplace for PSA-graded trading cards. Buy, sell, and collect with confidence.
+          </p>
+
+          <div class="flex flex-wrap gap-4">
+            <button onclick="window.location.href='/'" class="px-8 py-4 gradient-bg text-wild-sand rounded-xl font-bold text-lg hover:shadow-2xl transform hover:scale-105 transition-all">
+              Browse Marketplace
+            </button>
+            <button onclick="window.location.href='/sell-card.html'" class="px-8 py-4 bg-white text-mirage rounded-xl font-bold text-lg border-2 border-mirage/10 hover:border-deep-sea transition-all">
+              Sell Your Cards
+            </button>
+          </div>
+
+          <div class="grid grid-cols-3 gap-6 pt-8">
+            <div>
+              <div class="text-3xl font-bold text-deep-sea">15K+</div>
+              <div class="text-sm text-mirage/60 font-medium">Cards Listed</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-deep-sea">8K+</div>
+              <div class="text-sm text-mirage/60 font-medium">Active Users</div>
+            </div>
+            <div>
+              <div class="text-3xl font-bold text-deep-sea">99%</div>
+              <div class="text-sm text-mirage/60 font-medium">Satisfaction</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card Preview Carousel -->
+        <div class="flex items-center justify-center">
+          <div class="relative w-full max-w-sm">
+            <!-- Loading state -->
+            <div id="carouselLoading" class="card-hover bg-white rounded-2xl p-6 w-full">
+              <div class="flex justify-center items-center h-96">
+                <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-deep-sea"></div>
+              </div>
+            </div>
+            
+            <!-- Carousel container -->
+            <div id="carouselContainer" class="hidden">
+              <!-- Cards will be inserted here dynamically -->
+            </div>
+            
+            <!-- Carousel indicators -->
+            <div id="carouselIndicators" class="hidden flex justify-center gap-2 mt-4">
+              <!-- Indicators will be inserted here -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="py-20 px-4 bg-white">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-5xl font-black mb-4 gradient-text">Why Choose Us?</h2>
+        <p class="text-xl text-mirage/60">The safest way to trade premium graded cards</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="card-hover p-8 rounded-2xl hero-gradient">
+          <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-mirage mb-3">PSA Verified</h3>
+          <p class="text-mirage/60">Every card verified through PSA's official API</p>
+        </div>
+
+        <div class="card-hover p-8 rounded-2xl hero-gradient">
+          <div class="w-14 h-14 bg-coral rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-mirage mb-3">Secure Payments</h3>
+          <p class="text-mirage/60">Payments processed securely through Stripe</p>
+        </div>
+
+        <div class="card-hover p-8 rounded-2xl hero-gradient">
+          <div class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-6">
+            <svg class="w-7 h-7 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-mirage mb-3">Lightning Fast</h3>
+          <p class="text-mirage/60">List cards in seconds with instant verification</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Cards -->
+  <section class="py-20 px-4 hero-gradient">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex justify-between items-center mb-12">
+        <div>
+          <h2 class="text-4xl font-black mb-2 gradient-text">Featured Cards</h2>
+          <p class="text-mirage/60">Premium graded cards available now</p>
+        </div>
+        <button onclick="window.location.href='/'" class="px-6 py-3 gradient-bg text-wild-sand rounded-lg font-bold hover:shadow-lg transition-all">
+          View All →
+        </button>
+      </div>
+
+      <!-- Loading indicator -->
+      <div id="loadingCards" class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-deep-sea"></div>
+        <p class="text-mirage/60 mt-4">Loading cards...</p>
+      </div>
+
+      <!-- Cards grid -->
+      <div id="cardsGrid" class="hidden grid md:grid-cols-4 gap-6">
+        <!-- Les cartes seront chargées dynamiquement ici -->
+      </div>
+
+      <!-- No cards message -->
+      <div id="noCardsMessage" class="hidden text-center py-12">
+        <svg class="w-16 h-16 text-mirage/20 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+        </svg>
+        <h3 class="text-xl font-semibold text-mirage mb-2">No cards available</h3>
+        <p class="text-mirage/60 mb-6">Be the first to list a card for sale!</p>
+        <a href="/sell-card.html" class="inline-block bg-coral text-white px-6 py-3 rounded-lg font-semibold hover:bg-coral/90 transition-all">
+          List Your First Card
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="py-20 px-4 gradient-bg">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-4xl md:text-5xl font-black text-wild-sand mb-6">
+        Ready to Start Trading?
+      </h2>
+      <p class="text-xl text-wild-sand/80 mb-10">
+        Join thousands of collectors buying and selling premium graded cards
+      </p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <button onclick="window.location.href='/login.html'" class="px-10 py-4 bg-coral text-white rounded-xl font-bold text-lg hover:bg-coral/90 transform hover:scale-105 transition-all shadow-xl">
+          Create Account
+        </button>
+        <button onclick="window.location.href='/'" class="px-10 py-4 bg-wild-sand text-mirage rounded-xl font-bold text-lg hover:bg-white transform hover:scale-105 transition-all">
+          Browse Cards
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Purchase Modal -->
+  <div id="purchaseModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl border border-mirage/10 max-w-md w-full p-6 relative">
+      <button onclick="closePurchaseModal()" class="absolute top-4 right-4 text-mirage/60 hover:text-mirage transition-colors">
+        <span class="text-2xl">&times;</span>
+      </button>
+      
+      <div class="mb-6">
+        <div class="w-12 h-12 bg-coral/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <span class="text-3xl">🛒</span>
+        </div>
+        <h3 class="text-2xl font-bold text-center mb-2 text-mirage">Confirm Purchase</h3>
+        <p class="text-mirage/60 text-center text-sm">You're about to purchase this card</p>
+      </div>
+
+      <div id="modalCardDetails" class="bg-wild-sand rounded-lg p-4 mb-6">
+        <div class="space-y-2 text-sm">
+          <div class="flex justify-between">
+            <span class="text-mirage/60">Card:</span>
+            <span class="font-semibold text-mirage" id="modalCardName">Loading...</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-mirage/60">Grade:</span>
+            <span class="font-semibold text-mirage" id="modalCardGrade">PSA -</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-mirage/60">Seller:</span>
+            <span class="text-mirage" id="modalSellerName">Loading...</span>
+          </div>
+          <div class="border-t border-mirage/10 pt-2 mt-2">
+            <div class="flex justify-between text-lg">
+              <span class="font-semibold text-mirage">Total:</span>
+              <span class="font-bold text-deep-sea" id="modalPrice">€0.00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-deep-sea/10 border border-deep-sea/30 rounded-lg p-3 mb-6">
+        <p class="text-xs text-mirage/60">
+          <span class="text-deep-sea">🔒</span> Secure payment via Stripe. Your payment is protected.
+        </p>
+      </div>
+
+      <div class="flex gap-3">
+        <button onclick="closePurchaseModal()" class="flex-1 bg-mirage/10 hover:bg-mirage/20 text-mirage py-3 rounded-lg font-semibold transition-colors">
+          Cancel
+        </button>
+        <button onclick="confirmPurchase()" id="confirmPurchaseBtn" class="flex-1 bg-coral hover:bg-coral/90 text-white py-3 rounded-lg font-semibold transition-all">
+          Proceed to Payment
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-mirage text-wild-sand py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid md:grid-cols-4 gap-8 mb-8">
+        <div>
+          <div class="flex items-center space-x-2 mb-4">
+            <div class="w-8 h-8 bg-deep-sea rounded-lg flex items-center justify-center">
+              <svg class="w-5 h-5 text-wild-sand" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+              </svg>
+            </div>
+            <span class="text-xl font-bold">TCGMarket</span>
+          </div>
+          <p class="text-wild-sand/60 text-sm">
+            The premium marketplace for PSA-graded trading cards.
+          </p>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Marketplace</h4>
+          <ul class="space-y-2 text-sm text-wild-sand/60">
+            <li><a href="/" class="hover:text-wild-sand transition-colors">Browse Cards</a></li>
+            <li><a href="/sell-card.html" class="hover:text-wild-sand transition-colors">Sell Card</a></li>
+            <li><a href="/collection.html" class="hover:text-wild-sand transition-colors">My Collection</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Company</h4>
+          <ul class="space-y-2 text-sm text-wild-sand/60">
+            <li><a href="#" class="hover:text-wild-sand transition-colors">About Us</a></li>
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Contact</a></li>
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        
+        <div>
+          <h4 class="font-bold mb-4">Legal</h4>
+          <ul class="space-y-2 text-sm text-wild-sand/60">
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Privacy Policy</a></li>
+            <li><a href="#" class="hover:text-wild-sand transition-colors">Terms of Service</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="border-t border-wild-sand/10 pt-8 text-center text-sm text-wild-sand/40">
+        <p>&copy; 2025 TCGMarket. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Authentication
+    async function checkAuth() {
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        updateUIForGuest();
+        return false;
+      }
+      try {
+        const response = await fetch('/.netlify/functions/verify-token', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token })
+        });
+        const data = await response.json();
+        if (!data.valid) {
+          sessionStorage.clear();
+          updateUIForGuest();
+          return false;
+        }
+        updateUserUI();
+        return true;
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        sessionStorage.clear();
+        updateUIForGuest();
+        return false;
+      }
+    }
+
+    function updateUIForGuest() {
+      // Update navigation links to redirect to login
+      const navLinks = document.querySelectorAll('nav a');
+      navLinks.forEach(link => {
+        if (link.textContent.includes('Collection') || link.textContent.includes('Sell Card')) {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (confirm('You need to be logged in. Would you like to sign in now?')) {
+              window.location.href = '/login.html';
+            }
+          });
+        }
+      });
+
+      // Update header buttons
+      const signInBtn = document.querySelector('nav button:first-of-type');
+      const getStartedBtn = document.querySelector('nav button:last-of-type');
+      
+      if (signInBtn) {
+        signInBtn.textContent = 'Sign In';
+        signInBtn.onclick = () => window.location.href = '/login.html';
+      }
+      
+      if (getStartedBtn) {
+        getStartedBtn.textContent = 'Sign Up';
+        getStartedBtn.onclick = () => window.location.href = '/login.html';
+      }
+    }
+
+    function updateUserUI() {
+      const username = sessionStorage.getItem('username');
+      
+      // Update header buttons to show user menu
+      const navButtons = document.querySelector('nav .hidden.md\\:flex.items-center.space-x-4');
+      if (navButtons && username) {
+        navButtons.innerHTML = `
+          <div class="relative" id="userMenuContainer">
+            <button id="userProfileBtn" class="flex items-center gap-2 px-5 py-2.5 text-mirage font-semibold hover:text-deep-sea transition-colors">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+              <span>${username}</span>
+            </button>
+          </div>
+        `;
+        
+        // Attach click handler
+        setTimeout(() => {
+          const userBtn = document.getElementById('userProfileBtn');
+          if (userBtn) {
+            userBtn.addEventListener('click', toggleUserMenu);
+          }
+        }, 100);
+      }
+    }
+
+    function toggleUserMenu() {
+      const existingMenu = document.getElementById('userDropdown');
+      if (existingMenu) {
+        existingMenu.remove();
+        return;
+      }
+      
+      const username = sessionStorage.getItem('username');
+      const userId = sessionStorage.getItem('userId');
+      const menu = document.createElement('div');
+      menu.id = 'userDropdown';
+      menu.className = 'absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-mirage/10 py-2 z-50';
+      menu.style.top = '100%';
+      menu.innerHTML = `
+        <div class="px-4 py-3 border-b border-mirage/10">
+          <p class="text-sm font-semibold text-mirage">${username || 'User'}</p>
+          <p class="text-xs text-mirage/60">User ID: ${userId || 'N/A'}</p>
+        </div>
+        <a href="/seller-dashboard.html" class="block px-4 py-2 text-sm text-mirage hover:bg-wild-sand transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+            Seller Dashboard
+          </div>
+        </a>
+        <a href="/collection.html" class="block px-4 py-2 text-sm text-mirage hover:bg-wild-sand transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+            My Collection
+          </div>
+        </a>
+        <a href="/" class="block px-4 py-2 text-sm text-mirage hover:bg-wild-sand transition-colors">
+          <div class="flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+            Marketplace
+          </div>
+        </a>
+        <div class="border-t border-mirage/10 mt-2 pt-2">
+          <button onclick="logout()" class="block w-full text-left px-4 py-2 text-sm text-coral hover:bg-wild-sand transition-colors">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path></svg>
+              Sign Out
+            </div>
+          </button>
+        </div>
+      `;
+      
+      const userBtn = document.getElementById('userProfileBtn');
+      if (userBtn) {
+        userBtn.parentElement.style.position = 'relative';
+        userBtn.parentElement.appendChild(menu);
+      }
+      
+      setTimeout(() => {
+        document.addEventListener('click', function closeMenu(e) {
+          if (!menu.contains(e.target) && !userBtn.contains(e.target)) {
+            menu.remove();
+            document.removeEventListener('click', closeMenu);
+          }
+        });
+      }, 0);
+    }
+
+    function logout() {
+      sessionStorage.clear();
+      window.location.href = '/login.html';
+    }
+
+    // Card purchase functions
+    async function buyCard(listingId) {
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        if (confirm('You need to be logged in to purchase cards. Would you like to sign in now?')) {
+          sessionStorage.setItem('redirectAfterLogin', window.location.pathname);
+          sessionStorage.setItem('pendingPurchase', listingId);
+          window.location.href = '/login.html';
+        }
+        return;
+      }
+      
+      try {
+        const response = await fetch(`/.netlify/functions/get-listings`);
+        const data = await response.json();
+        const listing = data.listings.find(l => l.id === listingId);
+        
+        if (!listing) {
+          alert('Card not found');
+          return;
+        }
+        
+        window.currentListingId = listingId;
+        document.getElementById('modalCardName').textContent = listing.card_name;
+        document.getElementById('modalCardGrade').textContent = `PSA ${listing.psa_grade}`;
+        document.getElementById('modalSellerName').textContent = listing.seller_username || 'Seller';
+        document.getElementById('modalPrice').textContent = `€${parseFloat(listing.price).toFixed(2)}`;
+        document.getElementById('purchaseModal').classList.remove('hidden');
+      } catch (error) {
+        console.error('Error fetching listing:', error);
+        alert('Error loading card details');
+      }
+    }
+
+    function closePurchaseModal() {
+      document.getElementById('purchaseModal').classList.add('hidden');
+      window.currentListingId = null;
+    }
+
+    async function confirmPurchase() {
+      const token = sessionStorage.getItem('authToken');
+      const listingId = window.currentListingId;
+      
+      if (!listingId) {
+        alert('No card selected');
+        return;
+      }
+      
+      try {
+        const btn = document.getElementById('confirmPurchaseBtn');
+        btn.disabled = true;
+        btn.textContent = 'Creating checkout...';
+        
+        const response = await fetch('/.netlify/functions/create-checkout', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({ listingId: listingId })
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to create checkout session');
+        }
+        
+        window.location.href = data.checkoutUrl;
+      } catch (error) {
+        alert('Error: ' + error.message);
+        const btn = document.getElementById('confirmPurchaseBtn');
+        btn.disabled = false;
+        btn.textContent = 'Proceed to Payment';
+      }
+    }
+
+    // Load marketplace on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      checkAuth();
+      loadFeaturedCards();
+      loadTopCardsCarousel();
+    });
+
+    // Carousel functionality
+    let carouselInterval;
+    let currentSlide = 0;
+    let topCards = [];
+
+    async function loadTopCardsCarousel() {
+      const loadingEl = document.getElementById('carouselLoading');
+      const containerEl = document.getElementById('carouselContainer');
+      const indicatorsEl = document.getElementById('carouselIndicators');
+
+      try {
+        // Récupérer TOUTES les cartes sans tri côté serveur
+        const response = await fetch('/.netlify/functions/get-listings');
+        const data = await response.json();
+        
+        if (!data.listings || data.listings.length === 0) {
+          loadingEl.innerHTML = '<div class="text-center p-8 text-mirage/60">No cards available</div>';
+          return;
+        }
+
+        // Trier côté client pour garantir le tri correct par prix (du plus cher au moins cher)
+        const sortedListings = data.listings.sort((a, b) => {
+          const priceA = parseFloat(a.price);
+          const priceB = parseFloat(b.price);
+          return priceB - priceA; // Tri décroissant
+        });
+
+        // Prendre les 3 cartes les plus chères
+        topCards = sortedListings.slice(0, 3);
+        
+        console.log('Top 3 most expensive cards:', topCards.map(c => ({ name: c.card_name, price: c.price, cert: c.cert_number })));
+        
+        loadingEl.classList.add('hidden');
+        containerEl.classList.remove('hidden');
+        indicatorsEl.classList.remove('hidden');
+        
+        // Create carousel cards
+        topCards.forEach((listing, index) => {
+          const cardEl = createHeroCardElement(listing, index);
+          containerEl.appendChild(cardEl);
+        });
+
+        // Create indicators
+        topCards.forEach((_, index) => {
+          const indicator = document.createElement('div');
+          indicator.className = `carousel-indicator ${index === 0 ? 'active' : ''}`;
+          indicator.onclick = () => goToSlide(index);
+          indicatorsEl.appendChild(indicator);
+        });
+
+        // Start auto-rotation
+        startCarousel();
+      } catch (error) {
+        console.error('Error loading top cards:', error);
+        loadingEl.innerHTML = '<div class="text-center p-8 text-mirage/60">Error loading cards</div>';
+      }
+    }
+
+    function createHeroCardElement(listing, index) {
+      const card = document.createElement('div');
+      card.className = `carousel-card card-hover bg-white rounded-2xl p-6 w-full ${index === 0 ? 'active' : ''}`;
+      
+      const defaultImages = {
+        'Pokemon': 'https://images.unsplash.com/photo-1613771404721-1f92d799e49f?w=400&h=560&fit=crop',
+        'Magic: The Gathering': 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=560&fit=crop',
+        'Yu-Gi-Oh!': 'https://images.unsplash.com/photo-1621600411688-4be93cd68504?w=400&h=560&fit=crop',
+        'One Piece': 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=400&h=560&fit=crop',
+        'Dragon Ball': 'https://images.unsplash.com/photo-1611339555338-e64f61654c42?w=400&h=560&fit=crop'
+      };
+      
+      const imageUrl = listing.image_url || defaultImages[listing.card_game] || defaultImages['Pokemon'];
+      
+      card.innerHTML = `
+        <div class="flex items-center justify-between mb-3">
+          <span class="px-3 py-1 bg-coral/10 text-coral rounded-full text-sm font-bold">PSA ${listing.psa_grade}</span>
+        </div>
+        
+        <div class="aspect-[3/4] bg-gradient-to-br from-deep-sea/5 to-mirage/5 rounded-xl mb-4 overflow-hidden">
+          <img src="${imageUrl}" alt="${listing.card_name}" class="w-full h-full object-cover">
+        </div>
+        
+        <h3 class="text-xl font-bold text-mirage mb-2">${listing.card_name}</h3>
+        <p class="text-mirage/60 text-sm mb-4">${listing.card_game}${listing.card_set ? ' • ' + listing.card_set : ''}</p>
+        
+        <div class="flex items-center justify-between mb-3">
+          <div class="text-2xl font-bold text-deep-sea">€${parseFloat(listing.price).toFixed(2)}</div>
+          <button onclick="buyCard(${listing.id})" class="px-6 py-3 bg-coral text-white rounded-lg font-bold hover:bg-coral/90 transition-colors">
+            Buy Now
+          </button>
+        </div>
+        
+        <div class="flex items-center justify-between text-xs text-mirage/50 pt-2 border-t border-mirage/10">
+          <span>Cert: ${listing.cert_number}</span>
+          <span>by ${listing.seller_username || 'Seller'}</span>
+        </div>
+      `;
+      
+      return card;
+    }
+
+    function startCarousel() {
+      carouselInterval = setInterval(() => {
+        nextSlide();
+      }, 5000); // Change slide every 5 seconds (ralenti de 4s à 5s)
+    }
+
+    function stopCarousel() {
+      if (carouselInterval) {
+        clearInterval(carouselInterval);
+      }
+    }
+
+    function nextSlide() {
+      goToSlide((currentSlide + 1) % topCards.length);
+    }
+
+    function goToSlide(index) {
+      const cards = document.querySelectorAll('.carousel-card');
+      const indicators = document.querySelectorAll('.carousel-indicator');
+      
+      // Remove active class from current
+      cards[currentSlide].classList.remove('active');
+      indicators[currentSlide].classList.remove('active');
+      
+      // Add active class to new
+      currentSlide = index;
+      cards[currentSlide].classList.add('active');
+      indicators[currentSlide].classList.add('active');
+      
+      // Reset interval
+      stopCarousel();
+      startCarousel();
+    }
+
+    // Load featured cards from database
+    async function loadFeaturedCards() {
+      const loadingEl = document.getElementById('loadingCards');
+      const gridEl = document.getElementById('cardsGrid');
+      const noCardsEl = document.getElementById('noCardsMessage');
+
+      try {
+        const response = await fetch('/.netlify/functions/get-listings?sortBy=created_at&sortOrder=DESC');
+        const data = await response.json();
+        
+        loadingEl.classList.add('hidden');
+        
+        if (!data.listings || data.listings.length === 0) {
+          noCardsEl.classList.remove('hidden');
+          return;
+        }
+
+        // Show only first 4 cards for featured section
+        const featuredCards = data.listings.slice(0, 4);
+        
+        gridEl.classList.remove('hidden');
+        gridEl.innerHTML = '';
+        
+        featuredCards.forEach(listing => {
+          const cardEl = createCardElement(listing);
+          gridEl.appendChild(cardEl);
+        });
+      } catch (error) {
+        console.error('Error loading cards:', error);
+        loadingEl.classList.add('hidden');
+        noCardsEl.classList.remove('hidden');
+      }
+    }
+
+    function createCardElement(listing) {
+      const card = document.createElement('div');
+      card.className = 'card-hover bg-white rounded-xl overflow-hidden';
+      
+      const defaultImages = {
+        'Pokemon': 'https://images.unsplash.com/photo-1613771404721-1f92d799e49f?w=400&h=560&fit=crop',
+        'Magic: The Gathering': 'https://images.unsplash.com/photo-1612036782180-6f0b6cd846fe?w=400&h=560&fit=crop',
+        'Yu-Gi-Oh!': 'https://images.unsplash.com/photo-1621600411688-4be93cd68504?w=400&h=560&fit=crop',
+        'One Piece': 'https://images.unsplash.com/photo-1606167668584-78701c57f13d?w=400&h=560&fit=crop',
+        'Dragon Ball': 'https://images.unsplash.com/photo-1611339555338-e64f61654c42?w=400&h=560&fit=crop'
+      };
+      
+      const imageUrl = listing.image_url || defaultImages[listing.card_game] || defaultImages['Pokemon'];
+      
+      card.innerHTML = `
+        <div class="p-4 pb-3">
+          <div class="flex items-center justify-between mb-3">
+            <span class="px-2 py-1 bg-coral/10 text-coral rounded-full text-xs font-bold">PSA ${listing.psa_grade}</span>
+          </div>
+          
+          <div class="relative mb-3">
+            <div class="aspect-[3/4] bg-gradient-to-br from-deep-sea/10 to-mirage/10 rounded-lg overflow-hidden">
+              <img src="${imageUrl}" alt="${listing.card_name}" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500">
+            </div>
+          </div>
+          
+          <h3 class="font-bold text-mirage mb-1 truncate text-base">${listing.card_name}</h3>
+          <p class="text-sm text-mirage/60 mb-3 truncate">${listing.card_game}${listing.card_set ? ' • ' + listing.card_set : ''}</p>
+          
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xl font-bold text-deep-sea">€${parseFloat(listing.price).toFixed(2)}</span>
+            <button onclick="buyCard(${listing.id})" class="px-4 py-2 bg-coral text-white rounded-lg text-sm font-bold hover:bg-coral/90 transition-all">
+              Buy Now
+            </button>
+          </div>
+          
+          <div class="flex items-center justify-between text-xs text-mirage/50 pt-2 border-t border-mirage/10">
+            <span>Cert: ${listing.cert_number}</span>
+            <span>by ${listing.seller_username || 'Seller'}</span>
+          </div>
+        </div>
+      `;
+      
+      return card;
+    }
+  </script>
+
+</body>
+</html>

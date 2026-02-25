@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sell a Card - TCG Marketplace</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white min-h-screen">
+  
+  <!-- Header -->
+  <header class="sticky top-0 z-50 bg-slate-900/80 backdrop-blur-xl border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-8">
+          <a href="/index.html">
+            <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 cursor-pointer">
+              TCG
+            </h1>
+          </a>
+          <nav class="hidden md:flex items-center gap-6">
+            <a href="/index.html" class="text-sm font-medium text-slate-400 hover:text-white transition-colors">
+              Marketplace
+            </a>
+            <a href="/collection.html" id="collectionLink" class="hidden text-sm font-medium text-slate-400 hover:text-white transition-colors">
+              My Collection
+            </a>
+            <a href="/sell-card.html" class="text-sm font-medium text-purple-400 transition-colors">
+              Sell a Card
+            </a>
+          </nav>
+        </div>
+        
+        <div class="flex items-center gap-4">
+          <div class="relative" id="userMenuContainer">
+            <button id="userProfileBtn" class="p-2 hover:bg-slate-800 rounded-lg transition-colors">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    
+    <!-- Header Section -->
+    <div class="mb-8">
+      <h2 class="text-4xl font-bold mb-3">List Your Card for Sale</h2>
+      <p class="text-slate-400 text-lg">Enter your PSA certification number to auto-fill card details.</p>
+    </div>
+
+    <!-- Error/Success Messages -->
+    <div id="errorMessage" class="hidden mb-6 p-4 bg-red-500/10 border border-red-500/50 rounded-lg">
+      <div class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-red-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p class="text-red-400 text-sm" id="errorText"></p>
+      </div>
+    </div>
+
+    <div id="successMessage" class="hidden mb-6 p-4 bg-green-500/10 border border-green-500/50 rounded-lg">
+      <div class="flex items-start gap-3">
+        <svg class="w-5 h-5 text-green-400 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <p class="text-green-400 text-sm" id="successText"></p>
+      </div>
+    </div>
+
+    <!-- PSA Verification Section -->
+    <div class="bg-gradient-to-br from-blue-900/30 to-purple-900/30 rounded-2xl border border-blue-500/30 p-8 mb-6">
+      <div class="flex items-center gap-3 mb-6">
+        <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+        </svg>
+        <div>
+          <h3 class="text-2xl font-bold">PSA Verification</h3>
+          <p class="text-slate-400 text-sm">Start by verifying your card with PSA</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            PSA Certification Number <span class="text-red-400">*</span>
+          </label>
+          <div class="flex gap-3">
+            <div class="flex-1 relative">
+              <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold">#</span>
+              <input
+                type="text"
+                id="certNumber"
+                placeholder="82749361"
+                class="w-full bg-slate-800 border border-slate-700 rounded-lg pl-9 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+              />
+            </div>
+            <button
+              onclick="verifyPSACard()"
+              id="verifyBtn"
+              class="bg-blue-600 hover:bg-blue-500 text-white px-8 py-3 rounded-lg font-semibold transition-all whitespace-nowrap"
+            >
+              Verify Card
+            </button>
+          </div>
+          <p class="text-xs text-slate-500 mt-2">Found on the PSA certification label (the # will be added automatically)</p>
+        </div>
+      </div>
+
+      <!-- PSA Card Preview (Hidden by default) -->
+      <div id="psaCardPreview" class="hidden mt-6 p-6 bg-slate-800/50 rounded-xl border border-slate-700">
+        <div class="flex items-center gap-2 text-green-400 mb-4">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="font-semibold">Card Verified!</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Card Images -->
+          <div class="space-y-3">
+            <img id="psaFrontImage" src="" alt="Card Front" class="w-full rounded-lg border border-slate-600">
+            <img id="psaBackImage" src="" alt="Card Back" class="hidden w-full rounded-lg border border-slate-600">
+          </div>
+
+          <!-- Card Details -->
+          <div class="md:col-span-2 space-y-3">
+            <div>
+              <span class="text-xs text-slate-500 uppercase tracking-wide">Card Name</span>
+              <p id="psaCardName" class="text-xl font-bold text-white"></p>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Grade</span>
+                <p id="psaGradeDisplay" class="text-lg font-bold text-purple-400"></p>
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Year</span>
+                <p id="psaYear" class="text-lg font-semibold"></p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Brand</span>
+                <p id="psaBrand" class="text-sm"></p>
+              </div>
+              <div>
+                <span class="text-xs text-slate-500 uppercase tracking-wide">Category</span>
+                <p id="psaCategory" class="text-sm"></p>
+              </div>
+            </div>
+
+            <!-- Population Stats -->
+            <div class="bg-slate-900/50 rounded-lg p-4 border border-slate-700">
+              <div class="flex items-center gap-2 mb-3">
+                <svg class="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path>
+                </svg>
+                <span class="text-sm font-semibold text-slate-300">Population Report</span>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div>
+                  <span class="text-xs text-slate-500">Total Pop</span>
+                  <p id="psaTotalPop" class="text-lg font-bold text-white"></p>
+                </div>
+                <div>
+                  <span class="text-xs text-slate-500">Higher Grade</span>
+                  <p id="psaHigherPop" class="text-lg font-bold text-white"></p>
+                </div>
+              </div>
+            </div>
+
+            <div id="psaVariety" class="hidden">
+              <span class="text-xs text-slate-500 uppercase tracking-wide">Variety</span>
+              <p id="psaVarietyText" class="text-sm"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div id="listingForm" class="hidden bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl border border-slate-700 p-8">
+      
+      <h3 class="text-2xl font-bold mb-6">Complete Your Listing</h3>
+
+      <div class="space-y-6">
+        
+        <!-- Card Name (Read-only, filled by PSA) -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            Card Name <span class="text-green-400">(Auto-filled)</span>
+          </label>
+          <input
+            type="text"
+            id="cardName"
+            readonly
+            class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white cursor-not-allowed"
+          />
+        </div>
+
+        <!-- Card Game -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            Game <span class="text-red-400">*</span>
+          </label>
+          <select
+            id="cardGame"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500 transition-colors"
+          >
+            <option value="">Select a game</option>
+            <option value="Pokemon">Pokemon</option>
+            <option value="Magic: The Gathering">Magic: The Gathering</option>
+            <option value="Yu-Gi-Oh!">Yu-Gi-Oh!</option>
+            <option value="One Piece">One Piece</option>
+            <option value="Dragon Ball">Dragon Ball</option>
+          </select>
+        </div>
+
+        <!-- Card Set (Optional, can override PSA data) -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            Set Name <span class="text-slate-500">(Optional)</span>
+          </label>
+          <input
+            type="text"
+            id="cardSet"
+            placeholder="e.g., Base Set, Crown Zenith"
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+          />
+        </div>
+
+        <!-- PSA Grade (Read-only) -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            PSA Grade <span class="text-green-400">(Auto-filled)</span>
+          </label>
+          <input
+            type="text"
+            id="psaGradeInput"
+            readonly
+            class="w-full bg-slate-800/50 border border-slate-700 rounded-lg px-4 py-3 text-white cursor-not-allowed"
+          />
+          <input type="hidden" id="psaGradeValue">
+        </div>
+
+        <!-- Price -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            Price (EUR) <span class="text-red-400">*</span>
+          </label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">€</span>
+            <input
+              type="number"
+              id="price"
+              step="0.01"
+              min="10"
+              placeholder="0.00"
+              class="w-full bg-slate-800 border border-slate-700 rounded-lg pl-10 pr-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors"
+            />
+          </div>
+          <div id="feeBreakdown" class="hidden mt-3 p-3 bg-slate-800/50 rounded-lg text-sm">
+            <div class="flex justify-between mb-1">
+              <span class="text-slate-400">You'll receive:</span>
+              <span class="text-green-400 font-semibold" id="sellerPayout">€0.00</span>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500">
+              <span>Platform fee (10%):</span>
+              <span id="platformFee">€0.00</span>
+            </div>
+            <div class="flex justify-between text-xs text-slate-500">
+              <span>Payment processing:</span>
+              <span id="stripeFee">€0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Additional Photos Upload -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            Your Photos <span class="text-slate-500">(Optional - Add 1-5 photos)</span>
+          </label>
+          <div class="border-2 border-dashed border-slate-700 rounded-lg p-6 text-center hover:border-purple-500 transition-colors cursor-pointer">
+            <input type="file" id="additionalPhotos" accept="image/*" multiple class="hidden" onchange="handlePhotoUpload(event)">
+            <label for="additionalPhotos" class="cursor-pointer">
+              <svg class="w-12 h-12 text-slate-500 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+              </svg>
+              <p class="text-slate-400">Click to upload your own photos of the card</p>
+              <p class="text-xs text-slate-500 mt-1">PNG, JPG up to 10MB each</p>
+            </label>
+          </div>
+          <div id="photoPreview" class="hidden mt-4 grid grid-cols-5 gap-3"></div>
+        </div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-sm font-medium text-slate-300 mb-2">
+            Description <span class="text-slate-500">(Optional)</span>
+          </label>
+          <textarea
+            id="conditionNotes"
+            rows="4"
+            placeholder="Any additional information about the card condition, shipping, etc..."
+            class="w-full bg-slate-800 border border-slate-700 rounded-lg px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+          ></textarea>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-center gap-4 pt-4">
+          <button
+            onclick="createListing()"
+            id="submitBtn"
+            class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-3 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/50"
+          >
+            Create Listing
+          </button>
+          <button
+            onclick="resetForm()"
+            class="px-6 py-3 bg-slate-700 hover:bg-slate-600 rounded-lg font-semibold transition-colors"
+          >
+            Start Over
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Info Box -->
+    <div class="mt-8 p-6 bg-blue-500/10 border border-blue-500/30 rounded-xl">
+      <h3 class="text-lg font-semibold mb-2 flex items-center gap-2">
+        <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        Listing Guidelines
+      </h3>
+      <ul class="text-sm text-slate-400 space-y-2">
+        <li class="flex items-start gap-2">
+          <span class="text-purple-400 mt-1">•</span>
+          <span>Only PSA authenticated cards can be listed</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-purple-400 mt-1">•</span>
+          <span>Platform fee: 10% + payment processing fees (2.9% + €0.30)</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-purple-400 mt-1">•</span>
+          <span>Minimum listing price: €10.00</span>
+        </li>
+        <li class="flex items-start gap-2">
+          <span class="text-purple-400 mt-1">•</span>
+          <span>Once sold, you'll have 3 days to ship the card</span>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+
+  <script>
+    let psaCardData = null;
+    let uploadedPhotos = [];
+
+    // Check authentication on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const token = sessionStorage.getItem('authToken');
+      
+      // Show/hide My Collection link based on auth
+      if (token) {
+        document.getElementById('collectionLink').classList.remove('hidden');
+      }
+      
+      // Note: We allow access to the page even without auth
+      // But listing creation will require authentication
+    });
+
+    // Calculate fees in real-time
+    document.getElementById('price').addEventListener('input', function() {
+      const price = parseFloat(this.value);
+      
+      if (price && price >= 10) {
+        const platformFee = price * 0.10;
+        const stripeFee = (price * 0.029) + 0.30;
+        const sellerPayout = price - platformFee - stripeFee;
+
+        document.getElementById('feeBreakdown').classList.remove('hidden');
+        document.getElementById('platformFee').textContent = `€${platformFee.toFixed(2)}`;
+        document.getElementById('stripeFee').textContent = `€${stripeFee.toFixed(2)}`;
+        document.getElementById('sellerPayout').textContent = `€${sellerPayout.toFixed(2)}`;
+      } else {
+        document.getElementById('feeBreakdown').classList.add('hidden');
+      }
+    });
+
+    function showError(message) {
+      const errorDiv = document.getElementById('errorMessage');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorDiv.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideError() {
+      document.getElementById('errorMessage').classList.add('hidden');
+    }
+
+    function showSuccess(message) {
+      const successDiv = document.getElementById('successMessage');
+      const successText = document.getElementById('successText');
+      successText.textContent = message;
+      successDiv.classList.remove('hidden');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function hideSuccess() {
+      document.getElementById('successMessage').classList.add('hidden');
+    }
+
+    async function verifyPSACard() {
+      hideError();
+      hideSuccess();
+
+      let certNumber = document.getElementById('certNumber').value.trim();
+
+      if (!certNumber) {
+        showError('Please enter a PSA certification number');
+        return;
+      }
+
+      // Add # if not present
+      if (!certNumber.startsWith('#')) {
+        certNumber = '#' + certNumber;
+      }
+
+      const verifyBtn = document.getElementById('verifyBtn');
+      const originalText = verifyBtn.textContent;
+      verifyBtn.textContent = 'Verifying...';
+      verifyBtn.disabled = true;
+
+      try {
+        const response = await fetch('/.netlify/functions/verify-psa-card', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ certNumber })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || data.error || 'Card verification failed');
+        }
+
+        // Store PSA data
+        psaCardData = data.card;
+
+        // Display card preview
+        displayPSACard(data.card);
+
+        // Show listing form
+        document.getElementById('listingForm').classList.remove('hidden');
+
+        showSuccess('Card verified successfully! Complete the details below.');
+
+      } catch (error) {
+        showError(error.message || 'Failed to verify card. Please check the certification number.');
+      } finally {
+        verifyBtn.textContent = originalText;
+        verifyBtn.disabled = false;
+      }
+    }
+
+    function displayPSACard(card) {
+      // Show preview section
+      document.getElementById('psaCardPreview').classList.remove('hidden');
+
+      // Display images if available
+      const frontImg = document.getElementById('psaFrontImage');
+      const backImg = document.getElementById('psaBackImage');
+      
+      if (card.frontImageUrl) {
+        frontImg.src = card.frontImageUrl;
+        frontImg.classList.remove('hidden');
+        frontImg.onerror = function() {
+          // If image fails to load, hide it and show placeholder
+          this.classList.add('hidden');
+          console.log('Failed to load front image from:', card.frontImageUrl);
+        };
+      } else {
+        frontImg.classList.add('hidden');
+      }
+      
+      if (card.backImageUrl) {
+        backImg.src = card.backImageUrl;
+        backImg.classList.remove('hidden');
+        backImg.onerror = function() {
+          this.classList.add('hidden');
+          console.log('Failed to load back image from:', card.backImageUrl);
+        };
+      } else {
+        backImg.classList.add('hidden');
+      }
+
+      // If no images available, show a message
+      if (!card.frontImageUrl && !card.backImageUrl) {
+        const imgContainer = frontImg.parentElement;
+        imgContainer.innerHTML = '<div class="bg-slate-800 rounded-lg p-6 text-center border-2 border-dashed border-slate-600"><svg class="w-16 h-16 text-slate-600 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg><p class="text-slate-400 text-sm">Image not available from PSA</p><p class="text-slate-500 text-xs mt-1">You can upload your own photos below</p></div>';
+      }
+
+      // Display card details
+      document.getElementById('psaCardName').textContent = card.cardName;
+      document.getElementById('psaGradeDisplay').textContent = `PSA ${card.grade}`;
+      document.getElementById('psaYear').textContent = card.year || 'N/A';
+      document.getElementById('psaBrand').textContent = card.brand || 'N/A';
+      document.getElementById('psaCategory').textContent = card.category || 'N/A';
+
+      // Display population
+      document.getElementById('psaTotalPop').textContent = card.totalPopulation || 'N/A';
+      document.getElementById('psaHigherPop').textContent = card.popHigherGrade || 'N/A';
+
+      // Display variety if exists
+      if (card.variety) {
+        document.getElementById('psaVariety').classList.remove('hidden');
+        document.getElementById('psaVarietyText').textContent = card.variety;
+      }
+
+      // Fill form fields
+      document.getElementById('cardName').value = card.cardName;
+      document.getElementById('psaGradeInput').value = `PSA ${card.grade}`;
+      document.getElementById('psaGradeValue').value = card.grade;
+
+      // Try to auto-detect game from category/brand
+      const gameSelect = document.getElementById('cardGame');
+      if (card.category && card.category.toLowerCase().includes('pokemon')) {
+        gameSelect.value = 'Pokemon';
+      } else if (card.brand && card.brand.toLowerCase().includes('magic')) {
+        gameSelect.value = 'Magic: The Gathering';
+      } else if (card.brand && card.brand.toLowerCase().includes('pokemon')) {
+        gameSelect.value = 'Pokemon';
+      }
+    }
+
+    function handlePhotoUpload(event) {
+      const files = Array.from(event.target.files);
+      
+      if (uploadedPhotos.length + files.length > 5) {
+        showError('Maximum 5 photos allowed');
+        return;
+      }
+
+      const previewContainer = document.getElementById('photoPreview');
+      previewContainer.classList.remove('hidden');
+
+      files.forEach(file => {
+        if (file.size > 10 * 1024 * 1024) {
+          showError(`${file.name} is too large. Maximum size is 10MB`);
+          return;
+        }
+
+        uploadedPhotos.push(file);
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const div = document.createElement('div');
+          div.className = 'relative group';
+          div.innerHTML = `
+            <img src="${e.target.result}" class="w-full h-20 object-cover rounded-lg border border-slate-600">
+            <button onclick="removePhoto(${uploadedPhotos.length - 1})" class="absolute top-1 right-1 bg-red-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <svg class="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+              </svg>
+            </button>
+          `;
+          previewContainer.appendChild(div);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function removePhoto(index) {
+      uploadedPhotos.splice(index, 1);
+      const previewContainer = document.getElementById('photoPreview');
+      previewContainer.children[index].remove();
+      
+      if (uploadedPhotos.length === 0) {
+        previewContainer.classList.add('hidden');
+      }
+    }
+
+    function resetForm() {
+      psaCardData = null;
+      uploadedPhotos = [];
+      document.getElementById('certNumber').value = '';
+      document.getElementById('psaCardPreview').classList.add('hidden');
+      document.getElementById('listingForm').classList.add('hidden');
+      document.getElementById('photoPreview').classList.add('hidden');
+      hideError();
+      hideSuccess();
+    }
+
+    async function createListing() {
+      hideError();
+      hideSuccess();
+
+      // Check authentication before allowing listing creation
+      const token = sessionStorage.getItem('authToken');
+      if (!token) {
+        showError('You must be logged in to create a listing. Redirecting to login...');
+        setTimeout(() => {
+          sessionStorage.setItem('redirectAfterLogin', '/sell-card.html');
+          window.location.href = '/login.html';
+        }, 2000);
+        return;
+      }
+
+      if (!psaCardData) {
+        showError('Please verify your card with PSA first');
+        return;
+      }
+
+      // Get form values
+      const cardGame = document.getElementById('cardGame').value;
+      const cardSet = document.getElementById('cardSet').value.trim();
+      const price = parseFloat(document.getElementById('price').value);
+      const conditionNotes = document.getElementById('conditionNotes').value.trim();
+
+      // Validation
+      if (!cardGame) {
+        showError('Please select a game');
+        return;
+      }
+      if (!price || price < 10) {
+        showError('Price must be at least €10.00');
+        return;
+      }
+
+      // Disable button
+      const submitBtn = document.getElementById('submitBtn');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Creating Listing...';
+      submitBtn.disabled = true;
+
+      try {
+        // TODO: Upload photos to storage service (implement later)
+        // For now, we'll just use the PSA image URL
+        
+        const response = await fetch('/.netlify/functions/create-listing', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            cardName: psaCardData.cardName,
+            cardGame,
+            cardSet: cardSet || psaCardData.variety || null,
+            cardNumber: null,
+            psaGrade: parseInt(psaCardData.grade.replace(/[^0-9]/g, '')),
+            certNumber: psaCardData.certNumber,
+            price,
+            imageUrl: psaCardData.frontImageUrl,
+            conditionNotes: conditionNotes || null,
+            // Additional PSA data
+            psaData: {
+              year: psaCardData.year,
+              brand: psaCardData.brand,
+              category: psaCardData.category,
+              totalPopulation: psaCardData.totalPopulation,
+              popHigherGrade: psaCardData.popHigherGrade,
+              variety: psaCardData.variety
+            }
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to create listing');
+        }
+
+        showSuccess('Listing created successfully! Redirecting to marketplace...');
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          window.location.href = '/index.html';
+        }, 2000);
+
+      } catch (error) {
+        showError(error.message || 'An error occurred');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>

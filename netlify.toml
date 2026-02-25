@@ -1,0 +1,45 @@
+# Netlify Configuration for PSA Card Marketplace
+
+[build]
+  command = "npm install"
+  functions = "netlify/functions"
+  publish = "."
+
+# Configuration globale des fonctions
+[functions]
+  node_bundler = "esbuild"
+
+# Configuration pour la vérification PSA
+[functions."verify-psa-card"]
+  timeout = 35
+  memory = 512
+
+# Headers de sécurité
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+# CORS pour les fonctions
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+
+# Redirections
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
+# Variables d'environnement (à configurer dans l'UI Netlify)
+# PSA_API_TOKEN=votre_token
+# NEON_DATABASE_URL=votre_url_neon
+# JWT_SECRET=votre_secret
+# STRIPE_SECRET_KEY=votre_stripe_key
+# SITE_URL=https://votre-site.netlify.app
